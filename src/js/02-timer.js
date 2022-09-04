@@ -34,7 +34,7 @@ const options = {
   onClose(selectedDates) {
     if (selectedDates[0] <= new Date()) {
       Notify.failure('Please choose a date in the future');
-      refs.startBtn.setAttribute('disabled', 'true');
+      setAttrDisabled(refs.startBtn);
     } else {
       refs.startBtn.removeAttribute('disabled');
       localStorage.setItem(SELECTED_DATE_KEY, selectedDates[0]);
@@ -44,12 +44,14 @@ const options = {
 const fp = flatpickr(refs.inputDateTime, options);
 let intervalId = null;
 
-refs.startBtn.setAttribute('disabled', 'true');
+setAttrDisabled(refs.startBtn);
 refs.startBtn.addEventListener('click', onStartBtnClick);
 
-function onStartBtnClick() {
+function onStartBtnClick(e) {
   const selectedDate = new Date(localStorage.getItem(SELECTED_DATE_KEY));
   localStorage.removeItem(SELECTED_DATE_KEY);
+  setAttrDisabled(e.target);
+  setAttrDisabled(refs.inputDateTime);
   intervalId = setInterval(timer, 1000, selectedDate);
 }
 
@@ -69,6 +71,10 @@ function timer(date) {
 
 function addLeadingZero(value) {
   return value.toString().padStart(2, '0');
+}
+
+function setAttrDisabled(ref) {
+  ref.setAttribute('disabled', true);
 }
 
 refs.inputDateTime.style = 'padding: 10px; width: 220px; font-size: 20px';
