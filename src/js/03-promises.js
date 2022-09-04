@@ -8,6 +8,11 @@ function onFormSubmit(e) {
   e.preventDefault();
   const [firstDelay, step, amount] = valueToNumber(e.target.elements);
   let delay = firstDelay;
+
+  if (amount <= 0) {
+    Notify.failure(`Put amount more than 0!`);
+  }
+
   for (let i = 1; i <= amount; i += 1) {
     createPromise(i, delay)
       .then(({ position, delay }) => {
