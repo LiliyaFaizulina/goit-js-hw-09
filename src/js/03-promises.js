@@ -7,20 +7,14 @@ formRef.addEventListener('submit', onFormSubmit);
 function onFormSubmit(e) {
   e.preventDefault();
   const [firstDelay, step, amount] = valueToNumber(e.target.elements);
-  let delay = firstDelay;
 
   if (amount <= 0) {
     Notify.failure(`Put amount more than 0!`);
   }
 
+  let delay = firstDelay;
   for (let i = 1; i <= amount; i += 1) {
-    createPromise(i, delay)
-      .then(({ position, delay }) => {
-        Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
-      })
-      .catch(({ position, delay }) => {
-        Notify.failure(`Rejected promise ${position} in ${delay}ms`);
-      });
+    createPromise(i, delay).then(onSuccess).catch(onError);
     delay += step;
   }
 }
@@ -41,4 +35,12 @@ function createPromise(position, delay) {
       }
     }, delay);
   });
+}
+
+function onSuccess({ position, delay }) {
+  Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
+}
+
+function onError({ position, delay }) {
+  Notify.failure(`Rejected promise ${position} in ${delay}ms`);
 }
