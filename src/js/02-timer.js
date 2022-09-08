@@ -55,6 +55,7 @@ function timer(date) {
   const currentTime = new Date();
   const leftTime = date - currentTime;
   if (leftTime < 1) {
+    refs.inputDateTime.removeAttribute('disabled');
     clearInterval(intervalId);
     return;
   }
