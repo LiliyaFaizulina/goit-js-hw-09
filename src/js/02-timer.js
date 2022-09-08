@@ -20,10 +20,6 @@ const refs = {
   values: document.querySelectorAll('.value'),
   labels: document.querySelectorAll('.label'),
   startBtn: document.querySelector('[data-start]'),
-  days: document.querySelector('[data-days]'),
-  hours: document.querySelector('[data-hours]'),
-  minutes: document.querySelector('[data-minutes]'),
-  seconds: document.querySelector('[data-seconds]'),
 };
 const SELECTED_DATE_KEY = 'selected date';
 const options = {
@@ -62,11 +58,13 @@ function timer(date) {
     clearInterval(intervalId);
     return;
   }
-  const timeObj = convertMs(leftTime);
-  refs.days.textContent = addLeadingZero(timeObj.days);
-  refs.hours.textContent = addLeadingZero(timeObj.hours);
-  refs.minutes.textContent = addLeadingZero(timeObj.minutes);
-  refs.seconds.textContent = addLeadingZero(timeObj.seconds);
+  const timeData = convertMs(leftTime);
+
+  for (let key in timeData) {
+    document.querySelector(`[data-${key}]`).textContent = addLeadingZero(
+      timeData[key]
+    );
+  }
 }
 
 function addLeadingZero(value) {
