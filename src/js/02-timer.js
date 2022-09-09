@@ -61,7 +61,7 @@ function timer(date) {
   }
   const timeData = convertMs(leftTime);
 
-  for (let key in timeData) {
+  for (const key in timeData) {
     document.querySelector(`[data-${key}]`).textContent = addLeadingZero(
       timeData[key]
     );
